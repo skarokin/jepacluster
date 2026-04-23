@@ -1,0 +1,35 @@
+model:
+  # sliding window size (N logs) for context and target
+  window_size: 10
+  # latent dimension of context and target vectors (smaller is faster, larger is more accurate)
+  latent_dim: 128
+  # context encoder settings
+  encoder:
+    num_layers: 4
+    num_heads: 8
+    dropout: 0.1
+  # predictor is deliberately a small model (in this case, MLP)
+  predictor:
+    hidden_dim: 256
+
+training:
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 50
+  # target encoder update rate (Exponential Moving Average)
+  ema_decay: 0.99
+  # distance metric for latent prediction (L2 is standard for JEPA)
+  loss_type: "l2"
+
+clustering:
+  # dimensionality reduction before clustering (accelerates HDBSCAN)
+  umap:
+    n_components: 5
+    n_neighbors: 15
+    min_dist: 0.1
+  # density-based clustering (HDBSCAN)
+  hdbscan:
+    min_cluster_size: 10
+    min_samples: 5
+    # probability threshold to consider a log as 'clustered' vs 'noise'
+    prediction_threshold: 0.7
