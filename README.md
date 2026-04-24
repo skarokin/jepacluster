@@ -38,8 +38,8 @@ python src/jepacluster/main.py --train --data_dir data/ --model_dir models/ --co
 ```
 
 4. Trained artifacts are saved in `models/`.
-5. Run inference with the same entrypoint and the saved model directory:
+5. Run inference with the same entrypoint and path to the model of interest:
 
 ```bash
-python src/jepacluster/main.py --infer --infer_dir infer_data/ --model_dir models/ --config_file config.yaml
+python src/jepacluster/main.py --infer --infer_dir infer_data/ --model_path models/jepacluster-v1.pt --config_file config.yaml
 ```

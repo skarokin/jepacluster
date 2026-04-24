@@ -1,4 +1,5 @@
 model:
+  name: "jepacluster-v1"
   # sliding window size (N logs) for context and target
   window_size: 10
   # latent dimension of context and target vectors (smaller is faster, larger is more accurate)
@@ -8,18 +9,22 @@ model:
     num_layers: 4
     num_heads: 8
     dropout: 0.1
-  # predictor is deliberately a small model (in this case, MLP)
+  # predictor must stay smaller than the encoder (fewer layers, narrower FFN, fewer heads); see JEPAArchitecture
   predictor:
     hidden_dim: 256
+    num_layers: 2
+    num_heads: 4
 
 training:
-  batch_size: 64
-  learning_rate: 0.001
-  epochs: 50
-  # target encoder update rate (Exponential Moving Average)
+  batch_size: 32
+  learning_rate: 3e-4
+  epochs: 1
+  max_steps: 25000
   ema_decay: 0.99
-  # distance metric for latent prediction (L2 is standard for JEPA)
   loss_type: "l2"
+  warmup_epochs: 2
+  weight_decay: 0.0005
+  clip_grad_norm: 1.0
 
 clustering:
   # dimensionality reduction before clustering (accelerates HDBSCAN)
