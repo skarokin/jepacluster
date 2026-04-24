@@ -1,7 +1,7 @@
 model:
   name: "jepacluster-v1"
   # sliding window size (N logs) for context and target
-  window_size: 10
+  window_size: 5
   # latent dimension of context and target vectors (smaller is faster, larger is more accurate)
   latent_dim: 128
   # context encoder settings
