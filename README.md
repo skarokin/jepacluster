@@ -4,6 +4,7 @@
 - Log streams are too parallel and noisy to give a clean state X -> state Y sequence, so the JEPA-style setup does not map cleanly onto this problem.
     - e.g. your sliding window may be 10 logs but your training data ends up being just 500 logs of "received request" because that's the nature of production systems i guess
 - The idea works but requires too much data preparation for me to keep going.
+- And if i did all the preprocessing the logs may as well have become a trace and may as well cluster based on simple classification on the full trace
 
 An experimental **Joint-Embedding Predictive Architecture (JEPA)** approach to log clustering. 
 
