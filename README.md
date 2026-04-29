@@ -1,5 +1,10 @@
 # jepacluster
 
+**NOTE: this was a failure**
+- Log streams are too parallel and noisy to give a clean state X -> state Y sequence, so the JEPA-style setup does not map cleanly onto this problem.
+    - e.g. your sliding window may be 10 logs but your training data ends up being just 500 logs of "received request" because that's the nature of production systems i guess
+- The idea works but requires too much data preparation for me to keep going.
+
 An experimental **Joint-Embedding Predictive Architecture (JEPA)** approach to log clustering. 
 
 Unlike traditional methods that group logs based on syntax, `jepacluster` groups logs based on their **future consequence**. It learns a world model of your system logs, where the similarity between two logs is defined by the similarity of the future system states they will lead to.
