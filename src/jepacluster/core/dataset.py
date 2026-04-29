@@ -121,6 +121,7 @@ class LogMaskDataset(IterableDataset):
                         "token_mask": token_mask,
                         "context_mask": context_mask,
                         "target_mask": target_mask,
+                        "window_text": window,
                     }
 
     def _iter_log_files(self) -> List[Path]:
@@ -196,11 +197,13 @@ def collate_jepa_batches(batch: List[Dict[str, torch.Tensor]]) -> Dict[str, torc
     token_mask = torch.stack([item["token_mask"] for item in batch], dim=0)
     context_mask = torch.stack([item["context_mask"] for item in batch], dim=0)
     target_mask = torch.stack([item["target_mask"] for item in batch], dim=0)
+    window_text = [item.get("window_text", []) for item in batch]
     return {
         "tokens": tokens,
         "token_mask": token_mask,
         "context_mask": context_mask,
         "target_mask": target_mask,
+        "window_text": window_text,
     }
 
 

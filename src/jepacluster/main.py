@@ -13,6 +13,7 @@ Example:
 python src/jepacluster/main.py --train --data_dir data/ --model_dir models/ --config_file config.yaml
 """
 from argparse import ArgumentParser
+from pathlib import Path
 
 import numpy as np
 from utils.logger import get_logger
@@ -70,15 +71,16 @@ def main():
         logger.info("Running inference")
 
         embedder = Embedder(model_path=args.model_path)
-        embeddings = embedder.embed(args.infer_dir)
+        embeddings, samples = embedder.embed(args.infer_dir)
         embeddings_np = embeddings.detach().cpu().numpy() if isinstance(embeddings, torch.Tensor) else np.asarray(embeddings)
 
         clusterer = Clusterer(clustering_config=config.clustering)
         clusters = clusterer.cluster(embeddings=embeddings_np)
 
-        analyzer = Analyzer(clusters=clusters)
+        analyzer = Analyzer(clusters=clusters, samples=samples, embeddings=embeddings_np)
         summary = analyzer.analyze()
         logger.info("Inference summary: %s", summary)
+        analyzer.visualize(output_path=str(Path(args.model_dir) / "cluster_viz.png"))
     
         logger.info("Inference completed successfully")
 
